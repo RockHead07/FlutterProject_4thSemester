@@ -4,21 +4,20 @@ import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class AuthRepository {
-  // Using reqres.in as free dummy API for demo
-  static const String _baseUrl = 'https://reqres.in/api';
+  static const String _baseUrl = 'https://dummyjson.com';
 
   Future<UserModel> login({
-    required String email,
+    required String username,
     required String password,
   }) async {
     try {
       final response = await http.post(
-        Uri.parse('$_baseUrl/login'),
+        Uri.parse('$_baseUrl/auth/login'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'email': email,
+          'username': username,
           'password': password,
         }),
       );
@@ -27,11 +26,11 @@ class AuthRepository {
 
       if (response.statusCode == 200) {
         return UserModel(
-          token: data['token'],
-          email: email,
+          token: data['accessToken'],
+          email: data['email'] ?? username,
         );
       } else {
-        throw Exception(data['error'] ?? 'Login gagal. Periksa email dan password.');
+        throw Exception(data['message'] ?? 'Login gagal. Periksa username dan password.');
       }
     } catch (e) {
       if (e is Exception) rethrow;

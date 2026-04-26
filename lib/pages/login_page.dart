@@ -13,13 +13,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
             LoginSubmitted(
-              email: _emailController.text.trim(),
+              username: _usernameController.text.trim(),
               password: _passwordController.text.trim(),
             ),
           );
@@ -156,10 +156,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Email field
-            _buildLabel('Email'),
+            // Username field
+            _buildLabel('Username'),
             const SizedBox(height: 8),
-            _buildEmailField(),
+            _buildUsernameField(),
             const SizedBox(height: 20),
 
             // Password field
@@ -187,14 +187,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildEmailField() {
+  Widget _buildUsernameField() {
     return TextFormField(
-      controller: _emailController,
-      keyboardType: TextInputType.emailAddress,
+      controller: _usernameController,
+      keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        hintText: 'contoh@email.com',
+        hintText: 'nama pengguna',
         hintStyle: TextStyle(color: Colors.grey.shade400),
-        prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF6C63FF)),
+        prefixIcon: const Icon(Icons.person_outlined, color: Color(0xFF6C63FF)),
         filled: true,
         fillColor: const Color(0xFFF8FAFC),
         border: OutlineInputBorder(
@@ -221,10 +221,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Email tidak boleh kosong';
+          return 'Username tidak boleh kosong';
         }
-        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-          return 'Format email tidak valid';
+        if (value.length < 3) {
+          return 'Username minimal 3 karakter';
         }
         return null;
       },
@@ -335,7 +335,7 @@ class _LoginPageState extends State<LoginPage> {
               Icon(Icons.info_outline, size: 16, color: Colors.blue.shade600),
               const SizedBox(width: 8),
               Text(
-                'Akun Demo (reqres.in)',
+                'Akun Demo (dummyjson.com)',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -346,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Email: eve.holt@reqres.in\nPassword: cityslicka',
+            'Username: emilys\nPassword: emilyspass',
             style: TextStyle(
               fontSize: 12,
               color: Colors.blue.shade600,
