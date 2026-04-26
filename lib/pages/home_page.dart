@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Login Berhasil! 🎉',
+                  'Hello, Bagus Insan Pradana!',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
