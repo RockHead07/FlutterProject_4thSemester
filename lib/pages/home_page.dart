@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/auth/auth_bloc.dart';
+import '../constants/app_colors.dart';
 import '../models/user_model.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,13 +13,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppColors.lightBg,
       appBar: AppBar(
         title: const Text(
           'Dashboard',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFF6C63FF),
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -60,14 +61,14 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF6C63FF), Color(0xFF3B82F6)],
+          colors: [AppColors.primary, AppColors.mediumGreen],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C63FF).withOpacity(0.3),
+            color: AppColors.primary.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -76,16 +77,18 @@ class HomePage extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 56,
-            height: 56,
+            width: 80,
+            height: 80,
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(
-              Icons.person_rounded,
-              color: Colors.white,
-              size: 32,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                'assets/me.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -141,10 +144,10 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.green.shade50,
+                  color: AppColors.lightGreen.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.key_rounded, color: Colors.green.shade600, size: 20),
+                child: Icon(Icons.key_rounded, color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 12),
               const Text(
@@ -152,7 +155,7 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E293B),
+                  color: AppColors.darkBg,
                 ),
               ),
             ],
@@ -162,16 +165,16 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: AppColors.lightBg,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: AppColors.lightGreen.withOpacity(0.3)),
             ),
             child: Text(
               user.token,
               style: const TextStyle(
                 fontFamily: 'monospace',
                 fontSize: 13,
-                color: Color(0xFF374151),
+                color: AppColors.darkBg,
                 letterSpacing: 0.5,
               ),
             ),
@@ -203,10 +206,10 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.purple.shade50,
+                  color: AppColors.lightGreen.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.info_rounded, color: Colors.purple.shade600, size: 20),
+                child: Icon(Icons.info_rounded, color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 12),
               const Text(
@@ -214,7 +217,7 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E293B),
+                  color: AppColors.darkBg,
                 ),
               ),
             ],
@@ -234,13 +237,13 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF6C63FF)),
+          Icon(icon, size: 18, color: AppColors.primary),
           const SizedBox(width: 10),
           Text(
             '$label: ',
             style: const TextStyle(
               fontSize: 13,
-              color: Color(0xFF64748B),
+              color: AppColors.mediumGreen,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -249,7 +252,7 @@ class HomePage extends StatelessWidget {
               value,
               style: const TextStyle(
                 fontSize: 13,
-                color: Color(0xFF1E293B),
+                color: AppColors.darkBg,
                 fontWeight: FontWeight.w600,
               ),
             ),

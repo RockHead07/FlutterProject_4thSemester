@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/auth/auth_bloc.dart';
+import '../constants/app_colors.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppColors.lightBg,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
@@ -97,14 +98,14 @@ class _LoginPageState extends State<LoginPage> {
           height: 80,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFF6C63FF), Color(0xFF3B82F6)],
+              colors: [AppColors.primary, AppColors.mediumGreen],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF6C63FF).withOpacity(0.3),
+                color: AppColors.primary.withOpacity(0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -122,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
+            color: AppColors.darkBg,
           ),
         ),
         const SizedBox(height: 8),
@@ -182,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
       style: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w600,
-        color: Color(0xFF374151),
+        color: AppColors.darkGreen,
       ),
     );
   }
@@ -194,28 +195,28 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
         hintText: 'nama pengguna',
         hintStyle: TextStyle(color: Colors.grey.shade400),
-        prefixIcon: const Icon(Icons.person_outlined, color: Color(0xFF6C63FF)),
+        prefixIcon: const Icon(Icons.person_outlined, color: AppColors.primary),
         filled: true,
-        fillColor: const Color(0xFFF8FAFC),
+        fillColor: AppColors.lightBg,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF6C63FF), width: 1.5),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
@@ -238,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
         hintText: '••••••••',
         hintStyle: TextStyle(color: Colors.grey.shade400),
-        prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF6C63FF)),
+        prefixIcon: const Icon(Icons.lock_outline, color: AppColors.primary),
         suffixIcon: IconButton(
           icon: Icon(
             _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
@@ -247,26 +248,26 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
         ),
         filled: true,
-        fillColor: const Color(0xFFF8FAFC),
+        fillColor: AppColors.lightBg,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF6C63FF), width: 1.5),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
@@ -290,14 +291,14 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         onPressed: isLoading ? null : _onLoginPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6C63FF),
-          disabledBackgroundColor: const Color(0xFF6C63FF).withOpacity(0.6),
+          backgroundColor: AppColors.primary,
+          disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(AppStyles.borderRadius),
           ),
           elevation: isLoading ? 0 : 4,
-          shadowColor: const Color(0xFF6C63FF).withOpacity(0.4),
+          shadowColor: AppColors.primary.withOpacity(0.4),
         ),
         child: isLoading
             ? const SizedBox(
@@ -324,22 +325,22 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue.shade100),
+        color: AppColors.lightGreen.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+        border: Border.all(color: AppColors.lightGreen.withOpacity(0.3)),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(Icons.info_outline, size: 16, color: Colors.blue.shade600),
+              Icon(Icons.info_outline, size: 16, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(
                 'Akun Demo (dummyjson.com)',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Colors.blue.shade700,
+                  color: AppColors.primary,
                 ),
               ),
             ],
@@ -349,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
             'Username: emilys\nPassword: emilyspass',
             style: TextStyle(
               fontSize: 12,
-              color: Colors.blue.shade600,
+              color: AppColors.darkGreen,
               height: 1.6,
             ),
           ),

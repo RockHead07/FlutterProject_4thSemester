@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
 import 'repositories/auth_repository.dart';
 import 'pages/login_page.dart';
+import 'constants/app_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,12 +22,51 @@ class MyApp extends StatelessWidget {
           authRepository: context.read<AuthRepository>(),
         ),
         child: MaterialApp(
-          title: 'Biodata - Bagus Insan Pradan',
+          title: 'Biodata - Bagus Insan Pradana',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6C63FF)),
             useMaterial3: true,
             fontFamily: 'Roboto',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: AppColors.primary,
+              primary: AppColors.primary,
+              secondary: AppColors.lightGreen,
+              tertiary: AppColors.darkGreen,
+              surface: AppColors.lightBg,
+              error: AppColors.error,
+            ),
+            scaffoldBackgroundColor: AppColors.lightBg,
+            inputDecorationTheme: InputDecorationTheme(
+              filled: true,
+              fillColor: AppColors.lightBg,
+              prefixIconColor: AppColors.primary,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                borderSide: const BorderSide(color: AppColors.error),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppStyles.borderRadius),
+                ),
+              ),
+            ),
           ),
           initialRoute: '/login',
           routes: {
