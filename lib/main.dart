@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Biodata - Bagus Insan Pradan',
+      title: 'Biodata - Bagus Insan Pradana',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
 
             const Text(
-              'Hello, I am Bagus Insan Pradan',
+              'Hello, I am Bagus Insan Pradana',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
 
@@ -89,12 +89,12 @@ class BiodataPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              'Nama: Bagus Insan Pradan',
+              'Nama: Bagus Insan Pradana',
               style: TextStyle(fontSize: 18),
             ),
 
             const Text(
-              'NIM: 3124521007',
+              'NRP: 3124521007',
               style: TextStyle(fontSize: 18),
             ),
 
@@ -108,7 +108,7 @@ class BiodataPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'I love programming and creating innovative mobile applications.',
+                'Audio Enthusiast & PENS Student.',
                 textAlign: TextAlign.center,
               ),
             ),
