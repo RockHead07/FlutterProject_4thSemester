@@ -15,9 +15,13 @@ class MiniLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _LineChartPainter(data: data, color: color),
-      size: Size.infinite,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return CustomPaint(
+          painter: _LineChartPainter(data: data, color: color),
+          size: Size(constraints.maxWidth, constraints.maxHeight),
+        );
+      },
     );
   }
 }
@@ -30,7 +34,7 @@ class _LineChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (data.isEmpty) return;
+    if (data.isEmpty || size.width <= 0 || size.height <= 0) return;
 
     final minVal = data.reduce(min);
     final maxVal = data.reduce(max);
@@ -65,8 +69,8 @@ class _LineChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          color.withOpacity(0.35),
-          color.withOpacity(0.0),
+          color.withOpacity(0.25),
+          color.withOpacity(0.02),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(areaPath, areaPaint);
@@ -131,7 +135,7 @@ class DonutChart extends StatelessWidget {
                   Text(
                     '${activeRate.toStringAsFixed(0)}%',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.darkBg,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
@@ -139,7 +143,7 @@ class DonutChart extends StatelessWidget {
                   Text(
                     'ACTIVE RATE',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.4),
+                      color: AppColors.darkGreen.withOpacity(0.45),
                       fontSize: 9,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.8,
@@ -157,9 +161,9 @@ class DonutChart extends StatelessWidget {
           children: [
             _buildLegendItem('ACTIVE', activeCount, AppColors.primary),
             const SizedBox(height: 12),
-            _buildLegendItem('INACTIVE', inactiveCount, Colors.white.withOpacity(0.3)),
+            _buildLegendItem('INACTIVE', inactiveCount, AppColors.darkGreen.withOpacity(0.2)),
             const SizedBox(height: 12),
-            _buildLegendItem('TOTAL', total, Colors.white.withOpacity(0.6)),
+            _buildLegendItem('TOTAL', total, AppColors.darkGreen.withOpacity(0.5)),
           ],
         ),
       ],
@@ -184,7 +188,7 @@ class DonutChart extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.4),
+                color: AppColors.darkGreen.withOpacity(0.45),
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.8,
@@ -196,7 +200,7 @@ class DonutChart extends StatelessWidget {
                 (m) => '${m[1]}.',
               ),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.darkBg,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
               ),
@@ -222,7 +226,7 @@ class _DonutPainter extends CustomPainter {
 
     // Background track
     final trackPaint = Paint()
-      ..color = Colors.white.withOpacity(0.08)
+      ..color = AppColors.darkGreen.withOpacity(0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -268,9 +272,13 @@ class VerticalBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _BarChartPainter(data: data, labels: labels),
-      size: Size.infinite,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return CustomPaint(
+          painter: _BarChartPainter(data: data, labels: labels),
+          size: Size(constraints.maxWidth, constraints.maxHeight),
+        );
+      },
     );
   }
 }
@@ -283,7 +291,7 @@ class _BarChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (data.isEmpty) return;
+    if (data.isEmpty || size.width <= 0 || size.height <= 0) return;
 
     final maxVal = data.reduce(max);
     final barWidth = (size.width / data.length) * 0.55;
@@ -301,8 +309,8 @@ class _BarChartPainter extends CustomPainter {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: isMax
-              ? [AppColors.lightGreen, AppColors.primary]
-              : [AppColors.primary.withOpacity(0.7), AppColors.darkGreen.withOpacity(0.7)],
+              ? [AppColors.primary, AppColors.darkGreen]
+              : [AppColors.lightGreen, AppColors.primary.withOpacity(0.4)],
         ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
 
       final rrect = RRect.fromRectAndCorners(

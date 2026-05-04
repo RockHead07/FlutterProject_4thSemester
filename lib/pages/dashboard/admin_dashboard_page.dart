@@ -37,10 +37,20 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     180, 220, 160, 280, 200, 310, 260, 340, 290, 370, 310, 400,
   ].map((e) => e.toDouble()).toList();
 
+  // Page titles for sidebar navigation
+  static const _pageTitles = [
+    'Dashboard',
+    'Users',
+    'Projects',
+    'Materials',
+    'Pricing Plans',
+    'Partners',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111918),
+      backgroundColor: AppColors.lightBg,
       body: Row(
         children: [
           SidebarWidget(
@@ -52,7 +62,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               children: [
                 _buildTopBar(),
                 Expanded(
-                  child: _buildBody(),
+                  child: _selectedIndex == 0
+                      ? _buildDashboardBody()
+                      : _buildPlaceholderPage(_pageTitles[_selectedIndex]),
                 ),
               ],
             ),
@@ -63,33 +75,37 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   }
 
   Widget _buildTopBar() {
-    final now = DateTime.now();
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
-    final dateStr = '${days[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}, ${now.year}';
-
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 28),
       decoration: BoxDecoration(
-        color: const Color(0xFF161E1D),
+        color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            color: AppColors.darkGreen.withOpacity(0.25),
+            color: AppColors.darkGreen.withOpacity(0.12),
             width: 1,
           ),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          const Text(
-            'Dashboard',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.2,
+          Flexible(
+            child: Text(
+              _pageTitles[_selectedIndex],
+              style: const TextStyle(
+                color: AppColors.darkBg,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.2,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const Spacer(),
@@ -98,10 +114,10 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: AppColors.lightBg,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: Colors.white.withOpacity(0.08),
+                color: AppColors.darkGreen.withOpacity(0.12),
               ),
             ),
             child: Stack(
@@ -109,7 +125,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               children: [
                 Icon(
                   Icons.notifications_outlined,
-                  color: Colors.white.withOpacity(0.6),
+                  color: AppColors.darkGreen.withOpacity(0.6),
                   size: 18,
                 ),
                 Positioned(
@@ -122,7 +138,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       color: AppColors.primary,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFF161E1D),
+                        color: Colors.white,
                         width: 1.5,
                       ),
                     ),
@@ -139,40 +155,50 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  gradient: const LinearGradient(
+                    colors: [AppColors.primary, AppColors.mediumGreen],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
-                child: const Text(
-                  'AD',
-                  style: TextStyle(
+                child: Text(
+                  widget.user.email.isNotEmpty
+                      ? widget.user.email[0].toUpperCase()
+                      : 'A',
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               const SizedBox(width: 10),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Admin',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.user.email,
+                      style: const TextStyle(
+                        color: AppColors.darkBg,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    'Administrator',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.4),
-                      fontSize: 11,
+                    Text(
+                      'Administrator',
+                      style: TextStyle(
+                        color: AppColors.darkGreen.withOpacity(0.5),
+                        fontSize: 11,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -181,7 +207,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildDashboardBody() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(28),
       child: Column(
@@ -198,7 +224,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       const Text(
                         'Welcome back',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.darkBg,
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                           letterSpacing: -0.5,
@@ -212,7 +238,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   Text(
                     _todayString(),
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.4),
+                      color: AppColors.darkGreen.withOpacity(0.5),
                       fontSize: 13,
                     ),
                   ),
@@ -249,11 +275,18 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A2322),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppColors.darkGreen.withOpacity(0.25),
+                      color: AppColors.darkGreen.withOpacity(0.1),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -262,7 +295,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       Text(
                         'ACTIVE USERS',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.45),
+                          color: AppColors.darkGreen.withOpacity(0.5),
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 1.1,
@@ -271,13 +304,16 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text(
-                            _activeUsers,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: -1,
+                          Flexible(
+                            child: const Text(
+                              _activeUsers,
+                              style: TextStyle(
+                                color: AppColors.darkBg,
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: -1,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -285,11 +321,15 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      DonutChart(
-                        activeRate: 78,
-                        activeCount: 25782,
-                        inactiveCount: 7259,
-                        total: 33041,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: DonutChart(
+                          activeRate: 78,
+                          activeCount: 25782,
+                          inactiveCount: 7259,
+                          total: 33041,
+                        ),
                       ),
                     ],
                   ),
@@ -339,6 +379,46 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     );
   }
 
+  Widget _buildPlaceholderPage(String title) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: AppColors.lightGreen.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Icon(
+              Icons.construction_rounded,
+              color: AppColors.primary,
+              size: 40,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Halaman $title',
+            style: const TextStyle(
+              color: AppColors.darkBg,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Halaman ini sedang dalam pengembangan',
+            style: TextStyle(
+              color: AppColors.darkGreen.withOpacity(0.5),
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildMiniStat(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,7 +426,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         Text(
           label,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.35),
+            color: AppColors.darkGreen.withOpacity(0.4),
             fontSize: 9,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.8,
@@ -356,7 +436,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         Text(
           value,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.darkBg,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -370,8 +450,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: isPositive
-            ? AppColors.primary.withOpacity(0.15)
-            : AppColors.error.withOpacity(0.15),
+            ? AppColors.primary.withOpacity(0.12)
+            : AppColors.error.withOpacity(0.12),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

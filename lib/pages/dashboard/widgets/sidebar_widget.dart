@@ -34,13 +34,20 @@ class _SidebarWidgetState extends State<SidebarWidget> {
       curve: Curves.easeInOut,
       width: _isCollapsed ? 72 : 220,
       decoration: BoxDecoration(
-        color: const Color(0xFF161E1D),
+        color: Colors.white,
         border: Border(
           right: BorderSide(
-            color: AppColors.darkGreen.withOpacity(0.3),
+            color: AppColors.darkGreen.withOpacity(0.1),
             width: 1,
           ),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(2, 0),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -48,14 +55,33 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           Container(
             height: 64,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: AppColors.darkGreen.withOpacity(0.08),
+                  width: 1,
+                ),
+              ),
+            ),
             child: Row(
               children: [
                 Container(
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primary, AppColors.mediumGreen],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                     borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: const Icon(
                     Icons.architecture_rounded,
@@ -68,7 +94,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   const Text(
                     'RenovaSim',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.darkBg,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.3,
@@ -77,12 +103,16 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                 ],
                 const Spacer(),
                 if (!_isCollapsed)
-                  GestureDetector(
+                  InkWell(
                     onTap: () => setState(() => _isCollapsed = true),
-                    child: Icon(
-                      Icons.chevron_left_rounded,
-                      color: Colors.white.withOpacity(0.5),
-                      size: 20,
+                    borderRadius: BorderRadius.circular(6),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.chevron_left_rounded,
+                        color: AppColors.darkGreen.withOpacity(0.4),
+                        size: 20,
+                      ),
                     ),
                   ),
               ],
@@ -91,13 +121,17 @@ class _SidebarWidgetState extends State<SidebarWidget> {
 
           if (_isCollapsed)
             Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: GestureDetector(
+              padding: const EdgeInsets.only(top: 8, bottom: 4),
+              child: InkWell(
                 onTap: () => setState(() => _isCollapsed = false),
-                child: Icon(
-                  Icons.chevron_right_rounded,
-                  color: Colors.white.withOpacity(0.5),
-                  size: 20,
+                borderRadius: BorderRadius.circular(6),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.darkGreen.withOpacity(0.4),
+                    size: 20,
+                  ),
                 ),
               ),
             ),
@@ -118,7 +152,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                     child: Text(
                       item.section!,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.35),
+                        color: AppColors.darkGreen.withOpacity(0.4),
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
@@ -128,55 +162,61 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                 }
 
                 result.add(
-                  GestureDetector(
-                    onTap: () => widget.onItemSelected(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
-                      margin: const EdgeInsets.symmetric(vertical: 2),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: _isCollapsed ? 0 : 12,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary.withOpacity(0.15)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(10),
-                        border: isSelected
-                            ? Border.all(
-                                color: AppColors.primary.withOpacity(0.3),
-                                width: 1,
-                              )
-                            : null,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: _isCollapsed
-                            ? MainAxisAlignment.center
-                            : MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            item.icon,
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.white.withOpacity(0.5),
-                            size: 20,
-                          ),
-                          if (!_isCollapsed) ...[
-                            const SizedBox(width: 10),
-                            Text(
-                              item.label,
-                              style: TextStyle(
-                                color: isSelected
-                                    ? Colors.white
-                                    : Colors.white.withOpacity(0.6),
-                                fontSize: 13.5,
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.normal,
-                              ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => widget.onItemSelected(index),
+                      borderRadius: BorderRadius.circular(10),
+                      hoverColor: AppColors.lightGreen.withOpacity(0.15),
+                      splashColor: AppColors.primary.withOpacity(0.1),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 150),
+                        margin: const EdgeInsets.symmetric(vertical: 2),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: _isCollapsed ? 0 : 12,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppColors.primary.withOpacity(0.1)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                          border: isSelected
+                              ? Border.all(
+                                  color: AppColors.primary.withOpacity(0.2),
+                                  width: 1,
+                                )
+                              : null,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: _isCollapsed
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              item.icon,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.darkGreen.withOpacity(0.45),
+                              size: 20,
                             ),
+                            if (!_isCollapsed) ...[
+                              const SizedBox(width: 10),
+                              Text(
+                                item.label,
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? AppColors.darkBg
+                                      : AppColors.darkGreen.withOpacity(0.7),
+                                  fontSize: 13.5,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -191,8 +231,16 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           ),
 
           // Bottom actions
-          Padding(
+          Container(
             padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColors.darkGreen.withOpacity(0.08),
+                  width: 1,
+                ),
+              ),
+            ),
             child: Column(
               children: [
                 _buildBottomItem(
@@ -221,40 +269,44 @@ class _SidebarWidgetState extends State<SidebarWidget> {
     required VoidCallback onTap,
     bool isDestructive = false,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: _isCollapsed ? 0 : 12,
-          vertical: 10,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment:
-              _isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              color: isDestructive
-                  ? AppColors.error.withOpacity(0.8)
-                  : Colors.white.withOpacity(0.4),
-              size: 18,
-            ),
-            if (!_isCollapsed) ...[
-              const SizedBox(width: 10),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isDestructive
-                      ? AppColors.error.withOpacity(0.8)
-                      : Colors.white.withOpacity(0.4),
-                  fontSize: 13,
-                ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        hoverColor: isDestructive
+            ? AppColors.error.withOpacity(0.08)
+            : AppColors.lightGreen.withOpacity(0.15),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: _isCollapsed ? 0 : 12,
+            vertical: 10,
+          ),
+          child: Row(
+            mainAxisAlignment:
+                _isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                color: isDestructive
+                    ? AppColors.error.withOpacity(0.7)
+                    : AppColors.darkGreen.withOpacity(0.4),
+                size: 18,
               ),
+              if (!_isCollapsed) ...[
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: isDestructive
+                        ? AppColors.error.withOpacity(0.7)
+                        : AppColors.darkGreen.withOpacity(0.5),
+                    fontSize: 13,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
