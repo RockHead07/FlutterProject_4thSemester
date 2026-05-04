@@ -1,9 +1,10 @@
 // lib/pages/login_page.dart
+// PERUBAHAN: AuthSuccess sekarang navigate ke AdminDashboardPage
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../constants/app_colors.dart';
-import 'home_page.dart';
+import 'dashboard/admin_dashboard_page.dart'; // ← import baru
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,9 +44,10 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
+            // ← Arahkan ke AdminDashboardPage, bukan HomePage
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (_) => HomePage(user: state.user),
+                builder: (_) => AdminDashboardPage(user: state.user),
               ),
             );
           } else if (state is AuthFailure) {
@@ -69,11 +71,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Header
                     _buildHeader(),
                     const SizedBox(height: 40),
-
-                    // Card Form
                     _buildLoginCard(state),
                   ],
                 ),
@@ -106,28 +105,17 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          child: const Icon(
-            Icons.lock_rounded,
-            color: Colors.white,
-            size: 40,
-          ),
+          child: const Icon(Icons.lock_rounded, color: Colors.white, size: 40),
         ),
         const SizedBox(height: 20),
         const Text(
           'Selamat Datang!',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: AppColors.darkBg,
-          ),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColors.darkBg),
         ),
         const SizedBox(height: 8),
         const Text(
           'Masuk untuk melanjutkan',
-          style: TextStyle(
-            fontSize: 15,
-            color: Color(0xFF64748B),
-          ),
+          style: TextStyle(fontSize: 15, color: Color(0xFF64748B)),
         ),
       ],
     );
@@ -152,19 +140,14 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Username field
             _buildLabel('Username'),
             const SizedBox(height: 8),
             _buildUsernameField(),
             const SizedBox(height: 20),
-
-            // Password field
             _buildLabel('Password'),
             const SizedBox(height: 8),
             _buildPasswordField(),
             const SizedBox(height: 28),
-
-            // Login button
             _buildLoginButton(state),
           ],
         ),
@@ -186,42 +169,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildUsernameField() {
     return TextFormField(
       controller: _usernameController,
-      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         hintText: 'nama pengguna',
         hintStyle: TextStyle(color: Colors.grey.shade400),
         prefixIcon: const Icon(Icons.person_outlined, color: AppColors.primary),
-        filled: true,
-        fillColor: AppColors.lightBg,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.error),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Username tidak boleh kosong';
-        }
-        if (value.length < 3) {
-          return 'Username minimal 3 karakter';
-        }
+        if (value == null || value.isEmpty) return 'Username tidak boleh kosong';
+        if (value.length < 3) return 'Username minimal 3 karakter';
         return null;
       },
     );
@@ -242,37 +197,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
         ),
-        filled: true,
-        fillColor: AppColors.lightBg,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.error),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Password tidak boleh kosong';
-        }
-        if (value.length < 6) {
-          return 'Password minimal 6 karakter';
-        }
+        if (value == null || value.isEmpty) return 'Password tidak boleh kosong';
+        if (value.length < 6) return 'Password minimal 6 karakter';
         return null;
       },
     );
@@ -299,21 +227,13 @@ class _LoginPageState extends State<LoginPage> {
             ? const SizedBox(
                 width: 22,
                 height: 22,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2.5,
-                ),
+                child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
               )
             : const Text(
                 'Masuk',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.5),
               ),
       ),
     );
   }
-
 }
