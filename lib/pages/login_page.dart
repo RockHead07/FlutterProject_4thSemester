@@ -75,11 +75,6 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Card Form
                     _buildLoginCard(state),
-
-                    const SizedBox(height: 24),
-
-                    // Hint text
-                    _buildHintText(),
                   ],
                 ),
               ),
@@ -321,41 +316,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildHintText() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.lightGreen.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(AppStyles.borderRadius),
-        border: Border.all(color: AppColors.lightGreen.withOpacity(0.3)),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Icon(Icons.info_outline, size: 16, color: AppColors.primary),
-              const SizedBox(width: 8),
-              Text(
-                'Akun Demo (dummyjson.com)',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Username: emilys\nPassword: emilyspass',
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.darkGreen,
-              height: 1.6,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
