@@ -91,13 +91,18 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                 ),
                 if (!_isCollapsed) ...[
                   const SizedBox(width: 10),
-                  const Text(
-                    'RenovaSim',
-                    style: TextStyle(
-                      color: AppColors.darkBg,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.3,
+                  const Flexible(
+                    child: Text(
+                      'RenovaSim',
+                      style: TextStyle(
+                        color: AppColors.darkBg,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.3,
+                      ),
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                      softWrap: false,
                     ),
                   ),
                 ],
@@ -157,6 +162,9 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                       ),
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                      softWrap: false,
                     ),
                   ));
                 }
@@ -202,16 +210,21 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                             ),
                             if (!_isCollapsed) ...[
                               const SizedBox(width: 10),
-                              Text(
-                                item.label,
-                                style: TextStyle(
-                                  color: isSelected
-                                      ? AppColors.darkBg
-                                      : AppColors.darkGreen.withOpacity(0.7),
-                                  fontSize: 13.5,
-                                  fontWeight: isSelected
-                                      ? FontWeight.w600
-                                      : FontWeight.normal,
+                              Flexible(
+                                child: Text(
+                                  item.label,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? AppColors.darkBg
+                                        : AppColors.darkGreen.withOpacity(0.7),
+                                    fontSize: 13.5,
+                                    fontWeight: isSelected
+                                        ? FontWeight.w600
+                                        : FontWeight.normal,
+                                  ),
+                                  overflow: TextOverflow.clip,
+                                  maxLines: 1,
+                                  softWrap: false,
                                 ),
                               ),
                             ],
@@ -295,13 +308,18 @@ class _SidebarWidgetState extends State<SidebarWidget> {
               ),
               if (!_isCollapsed) ...[
                 const SizedBox(width: 10),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: isDestructive
-                        ? AppColors.error.withOpacity(0.7)
-                        : AppColors.darkGreen.withOpacity(0.5),
-                    fontSize: 13,
+                Flexible(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: isDestructive
+                          ? AppColors.error.withOpacity(0.7)
+                          : AppColors.darkGreen.withOpacity(0.5),
+                      fontSize: 13,
+                    ),
+                    overflow: TextOverflow.clip,
+                    maxLines: 1,
+                    softWrap: false,
                   ),
                 ),
               ],
