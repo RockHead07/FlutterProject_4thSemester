@@ -64,6 +64,9 @@ class _SidebarWidgetState extends State<SidebarWidget> {
               ),
             ),
             child: Row(
+              mainAxisAlignment: _isCollapsed
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
               children: [
                 Container(
                   width: 36,
@@ -91,23 +94,19 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                 ),
                 if (!_isCollapsed) ...[
                   const SizedBox(width: 10),
-                  const Flexible(
+                  Flexible(
                     child: Text(
                       'RenovaSim',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.darkBg,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.3,
                       ),
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
-                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ],
-                const Spacer(),
-                if (!_isCollapsed)
+                  const Spacer(),
                   InkWell(
                     onTap: () => setState(() => _isCollapsed = true),
                     borderRadius: BorderRadius.circular(6),
@@ -120,6 +119,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                       ),
                     ),
                   ),
+                ],
               ],
             ),
           ),
@@ -162,9 +162,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                       ),
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
-                      softWrap: false,
                     ),
                   ));
                 }
@@ -179,6 +176,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                       splashColor: AppColors.primary.withOpacity(0.1),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 150),
+                        clipBehavior: Clip.hardEdge,
                         margin: const EdgeInsets.symmetric(vertical: 2),
                         padding: EdgeInsets.symmetric(
                           horizontal: _isCollapsed ? 0 : 12,
@@ -222,9 +220,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                                         ? FontWeight.w600
                                         : FontWeight.normal,
                                   ),
-                                  overflow: TextOverflow.clip,
-                                  maxLines: 1,
-                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -291,6 +287,10 @@ class _SidebarWidgetState extends State<SidebarWidget> {
             ? AppColors.error.withOpacity(0.08)
             : AppColors.lightGreen.withOpacity(0.15),
         child: Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
           padding: EdgeInsets.symmetric(
             horizontal: _isCollapsed ? 0 : 12,
             vertical: 10,
@@ -317,9 +317,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                           : AppColors.darkGreen.withOpacity(0.5),
                       fontSize: 13,
                     ),
-                    overflow: TextOverflow.clip,
-                    maxLines: 1,
-                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
