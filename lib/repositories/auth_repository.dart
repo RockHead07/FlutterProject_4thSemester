@@ -5,9 +5,10 @@ import '../models/user_model.dart';
 
 class AuthRepository {
   // TODO: Ganti dengan base URL Laravel REST API Anda
-  // Gunakan 'http://10.0.2.2:8000/api' untuk Android Emulator
-  // Gunakan 'http://localhost:8000/api' untuk iOS Simulator atau Web
-  static const String _baseUrl = 'http://10.0.2.2:8000/api';
+  // Android Emulator: http://10.0.2.2:8000/api
+  // iOS Simulator / Web: http://localhost:8000/api
+  // Perangkat fisik: gunakan IP laptop di jaringan yang sama
+  static const String _baseUrl = 'http://10.253.55.170:8000/api';
 
   Future<UserModel> login({
     required String username,

@@ -6,7 +6,7 @@ import '../models/api_user.dart';
 class UserRepository {
   // Gunakan 'http://10.0.2.2:8000/api' untuk Android Emulator
   // Gunakan 'http://localhost:8000/api' untuk iOS Simulator atau Web
-  static const String _baseUrl = 'http://10.0.2.2:8000/api';
+  static const String _baseUrl = 'http://10.253.55.170:8000/api';
 
   Future<List<ApiUser>> fetchUsers({
     required String token,
@@ -19,10 +19,16 @@ class UserRepository {
 
     final data = _decodeJson(response);
     if (response.statusCode == 200) {
-      final payload = data['data'] as Map<String, dynamic>? ?? {};
-      final items = (payload['data'] as List<dynamic>? ?? [])
-          .cast<Map<String, dynamic>>();
-      return items.map(ApiUser.fromJson).toList();
+      final raw = data['data'];
+      List<dynamic> items;
+      if (raw is List) {
+        items = raw;
+      } else if (raw is Map<String, dynamic>) {
+        items = (raw['data'] as List<dynamic>?) ?? [];
+      } else {
+        items = [];
+      }
+      return items.cast<Map<String, dynamic>>().map(ApiUser.fromJson).toList();
     }
 
     throw Exception(data['message'] ?? 'Gagal mengambil data users.');
