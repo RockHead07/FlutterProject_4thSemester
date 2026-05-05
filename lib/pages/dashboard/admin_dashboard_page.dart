@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/app_colors.dart';
 import '../../models/user_model.dart';
+import '../../repositories/user_repository.dart';
+import '../../blocs/users/users_bloc.dart';
 import 'widgets/sidebar_widget.dart';
 
 class AdminDashboardPage extends StatefulWidget {
@@ -27,25 +30,30 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.lightBg,
-      body: Row(
-        children: [
-          SidebarWidget(
-            selectedIndex: _selectedIndex,
-            onItemSelected: (i) => setState(() => _selectedIndex = i),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                _buildTopBar(),
-                Expanded(
-                  child: _buildPageContent(),
-                ),
-              ],
+    return BlocProvider(
+      create: (context) => UsersBloc(
+        userRepository: context.read<UserRepository>(),
+      )..add(UsersLoad(token: widget.user.token)),
+      child: Scaffold(
+        backgroundColor: AppColors.lightBg,
+        body: Row(
+          children: [
+            SidebarWidget(
+              selectedIndex: _selectedIndex,
+              onItemSelected: (i) => setState(() => _selectedIndex = i),
             ),
-          ),
-        ],
+            Expanded(
+              child: Column(
+                children: [
+                  _buildTopBar(),
+                  Expanded(
+                    child: _buildPageContent(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

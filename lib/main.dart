@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
         create: (context) => AuthBloc(
           authRepository: context.read<AuthRepository>(),
         ),
+        // Global Color Pallete Design System
+        // System must only follow this color shceme rules!
         child: MaterialApp(
           title: 'Biodata - Bagus Insan Pradana',
           debugShowCheckedModeBanner: false,
