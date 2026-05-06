@@ -40,7 +40,7 @@ class _UsersPageState extends State<UsersPage> {
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Manage Users', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.darkBg)),
         const SizedBox(height: 2),
-        Text('Kelola akun pengguna', style: TextStyle(fontSize: 12, color: AppColors.darkGreen.withOpacity(0.5))),
+        Text('Kelola akun pengguna', style: TextStyle(fontSize: 12, color: AppColors.darkGreen.withValues(alpha: 0.5))),
       ])),
       SizedBox(height: 38, child: ElevatedButton.icon(
         onPressed: () => _showUserFormDialog(null), icon: const Icon(Icons.add_rounded, size: 16), label: const Text('Tambah', style: TextStyle(fontSize: 13)),
@@ -53,17 +53,17 @@ class _UsersPageState extends State<UsersPage> {
     return Row(children: [
       Expanded(child: SizedBox(height: 40, child: TextField(
         controller: _searchController, onChanged: (v) => setState(() => _searchQuery = v), style: const TextStyle(fontSize: 13),
-        decoration: InputDecoration(hintText: 'Cari user...', hintStyle: TextStyle(color: AppColors.darkGreen.withOpacity(0.35), fontSize: 13),
-          prefixIcon: Icon(Icons.search_rounded, color: AppColors.darkGreen.withOpacity(0.4), size: 18), filled: true, fillColor: Colors.white, contentPadding: EdgeInsets.zero,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withOpacity(0.12))),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withOpacity(0.12))),
+        decoration: InputDecoration(hintText: 'Cari user...', hintStyle: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.35), fontSize: 13),
+          prefixIcon: Icon(Icons.search_rounded, color: AppColors.darkGreen.withValues(alpha: 0.4), size: 18), filled: true, fillColor: Colors.white, contentPadding: EdgeInsets.zero,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.12))),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.12))),
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primary, width: 1.5))),
       ))),
       const SizedBox(width: 10),
       Container(height: 40, padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withOpacity(0.12))),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.12))),
         child: DropdownButtonHideUnderline(child: DropdownButton<String>(
-          value: _roleFilter, isDense: true, icon: Icon(Icons.expand_more_rounded, color: AppColors.darkGreen.withOpacity(0.4), size: 18), style: const TextStyle(color: AppColors.darkBg, fontSize: 13),
+          value: _roleFilter, isDense: true, icon: Icon(Icons.expand_more_rounded, color: AppColors.darkGreen.withValues(alpha: 0.4), size: 18), style: const TextStyle(color: AppColors.darkBg, fontSize: 13),
           items: ['All', 'Admin', 'User'].map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
           onChanged: (v) => setState(() => _roleFilter = v ?? 'All'),
         )),
@@ -78,24 +78,24 @@ class _UsersPageState extends State<UsersPage> {
       final filtered = _filterUsers(state.users);
       if (filtered.isEmpty) return _buildEmptyState();
       return Stack(children: [
-        ListView.separated(itemCount: filtered.length, separatorBuilder: (_, __) => const SizedBox(height: 10), itemBuilder: (_, i) => _buildUserCard(filtered[i])),
-        if (state.status == UsersStatus.loading) Positioned(top: 0, left: 0, right: 0, child: LinearProgressIndicator(color: AppColors.primary, backgroundColor: AppColors.lightGreen.withOpacity(0.3), minHeight: 2)),
+        ListView.separated(itemCount: filtered.length, separatorBuilder: (_, _) => const SizedBox(height: 10), itemBuilder: (_, i) => _buildUserCard(filtered[i])),
+        if (state.status == UsersStatus.loading) Positioned(top: 0, left: 0, right: 0, child: LinearProgressIndicator(color: AppColors.primary, backgroundColor: AppColors.lightGreen.withValues(alpha: 0.3), minHeight: 2)),
       ]);
     });
   }
 
   Widget _buildErrorState(String message) {
     return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Icon(Icons.error_outline_rounded, size: 40, color: AppColors.error.withOpacity(0.6)), const SizedBox(height: 10),
-      Text(message, style: TextStyle(color: AppColors.darkGreen.withOpacity(0.6), fontSize: 13)), const SizedBox(height: 14),
+      Icon(Icons.error_outline_rounded, size: 40, color: AppColors.error.withValues(alpha: 0.6)), const SizedBox(height: 10),
+      Text(message, style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.6), fontSize: 13)), const SizedBox(height: 14),
       OutlinedButton.icon(onPressed: () => context.read<UsersBloc>().add(UsersLoad(token: widget.token)), icon: const Icon(Icons.refresh_rounded, size: 16), label: const Text('Retry')),
     ]));
   }
 
   Widget _buildEmptyState() {
     return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Icon(Icons.people_outline_rounded, size: 40, color: AppColors.darkGreen.withOpacity(0.25)), const SizedBox(height: 10),
-      Text(_searchQuery.isNotEmpty ? 'Tidak ditemukan' : 'Belum ada user', style: TextStyle(color: AppColors.darkGreen.withOpacity(0.5), fontSize: 13)),
+      Icon(Icons.people_outline_rounded, size: 40, color: AppColors.darkGreen.withValues(alpha: 0.25)), const SizedBox(height: 10),
+      Text(_searchQuery.isNotEmpty ? 'Tidak ditemukan' : 'Belum ada user', style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.5), fontSize: 13)),
     ]));
   }
 
@@ -105,18 +105,18 @@ class _UsersPageState extends State<UsersPage> {
     final isActive = user.accountStatus?.toLowerCase() == 'active';
     final isAdmin = user.role?.toLowerCase() == 'admin';
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.darkGreen.withOpacity(0.08)),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 6, offset: const Offset(0, 2))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.08)),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 6, offset: const Offset(0, 2))]),
       child: Material(color: Colors.transparent, borderRadius: BorderRadius.circular(14),
         child: InkWell(onTap: () => _showUserFormDialog(user), borderRadius: BorderRadius.circular(14),
           child: Padding(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              CircleAvatar(radius: 20, backgroundColor: AppColors.primary.withOpacity(0.12), child: Text(initials, style: const TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w700))),
+              CircleAvatar(radius: 20, backgroundColor: AppColors.primary.withValues(alpha: 0.12), child: Text(initials, style: const TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w700))),
               const SizedBox(width: 12),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(displayName, style: const TextStyle(color: AppColors.darkBg, fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 2),
-                Text(user.email, style: TextStyle(color: AppColors.darkGreen.withOpacity(0.45), fontSize: 12), overflow: TextOverflow.ellipsis),
+                Text(user.email, style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.45), fontSize: 12), overflow: TextOverflow.ellipsis),
               ])),
               _actionButton(Icons.edit_outlined, AppColors.primary, () => _showUserFormDialog(user)),
               const SizedBox(width: 6),
@@ -124,10 +124,10 @@ class _UsersPageState extends State<UsersPage> {
             ]),
             const SizedBox(height: 10),
             Row(children: [
-              _badge(isAdmin ? 'Admin' : 'User', isAdmin ? AppColors.darkGreen : AppColors.primary, isAdmin ? AppColors.darkGreen.withOpacity(0.1) : AppColors.primary.withOpacity(0.1)),
+              _badge(isAdmin ? 'Admin' : 'User', isAdmin ? AppColors.darkGreen : AppColors.primary, isAdmin ? AppColors.darkGreen.withValues(alpha: 0.1) : AppColors.primary.withValues(alpha: 0.1)),
               const SizedBox(width: 8),
-              _badge(isActive ? 'Active' : 'Inactive', isActive ? AppColors.darkGreen : AppColors.error, isActive ? AppColors.success.withOpacity(0.4) : AppColors.error.withOpacity(0.1), dotColor: isActive ? AppColors.primary : AppColors.error),
-              if (user.plan != null && user.plan!.isNotEmpty) ...[const SizedBox(width: 8), _badge(user.plan!, AppColors.darkGreen.withOpacity(0.6), AppColors.lightBg)],
+              _badge(isActive ? 'Active' : 'Inactive', isActive ? AppColors.darkGreen : AppColors.error, isActive ? AppColors.success.withValues(alpha: 0.4) : AppColors.error.withValues(alpha: 0.1), dotColor: isActive ? AppColors.primary : AppColors.error),
+              if (user.plan != null && user.plan!.isNotEmpty) ...[const SizedBox(width: 8), _badge(user.plan!, AppColors.darkGreen.withValues(alpha: 0.6), AppColors.lightBg)],
             ]),
           ])))),
     );
@@ -135,7 +135,7 @@ class _UsersPageState extends State<UsersPage> {
 
   Widget _actionButton(IconData icon, Color color, VoidCallback onTap) {
     return InkWell(onTap: onTap, borderRadius: BorderRadius.circular(8),
-      child: Container(padding: const EdgeInsets.all(7), decoration: BoxDecoration(color: color.withOpacity(0.08), borderRadius: BorderRadius.circular(8)), child: Icon(icon, size: 16, color: color)));
+      child: Container(padding: const EdgeInsets.all(7), decoration: BoxDecoration(color: color.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(8)), child: Icon(icon, size: 16, color: color)));
   }
 
   Widget _badge(String text, Color textColor, Color bgColor, {Color? dotColor}) {
@@ -165,14 +165,14 @@ class _UsersPageState extends State<UsersPage> {
         constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.88),
         decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
         child: Form(key: formKey, child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(margin: const EdgeInsets.only(top: 10), width: 40, height: 4, decoration: BoxDecoration(color: AppColors.darkGreen.withOpacity(0.15), borderRadius: BorderRadius.circular(4))),
+          Container(margin: const EdgeInsets.only(top: 10), width: 40, height: 4, decoration: BoxDecoration(color: AppColors.darkGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4))),
           Padding(padding: const EdgeInsets.fromLTRB(20, 16, 20, 0), child: Row(children: [
-            Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+            Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Icon(isEdit ? Icons.edit_rounded : Icons.person_add_rounded, color: AppColors.primary, size: 18)),
             const SizedBox(width: 12),
             Text(isEdit ? 'Edit User' : 'Tambah User', style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.darkBg)),
             const Spacer(),
-            InkWell(onTap: () => Navigator.pop(ctx), borderRadius: BorderRadius.circular(8), child: Icon(Icons.close_rounded, color: AppColors.darkGreen.withOpacity(0.4))),
+            InkWell(onTap: () => Navigator.pop(ctx), borderRadius: BorderRadius.circular(8), child: Icon(Icons.close_rounded, color: AppColors.darkGreen.withValues(alpha: 0.4))),
           ])),
           const SizedBox(height: 16),
           Flexible(child: SingleChildScrollView(padding: const EdgeInsets.fromLTRB(20, 0, 20, 20), child: Column(children: [
@@ -189,7 +189,7 @@ class _UsersPageState extends State<UsersPage> {
             ]), const SizedBox(height: 24),
             Row(children: [
               Expanded(child: OutlinedButton(onPressed: () => Navigator.pop(ctx),
-                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), side: BorderSide(color: AppColors.darkGreen.withOpacity(0.2))),
+                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), side: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.2))),
                 child: const Text('Batal', style: TextStyle(color: AppColors.darkBg)))),
               const SizedBox(width: 10),
               Expanded(child: ElevatedButton(onPressed: () {
@@ -212,12 +212,12 @@ class _UsersPageState extends State<UsersPage> {
     showDialog(context: context, builder: (ctx) => AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       title: Row(children: [
-        Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: AppColors.error.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+        Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
           child: const Icon(Icons.warning_amber_rounded, color: AppColors.error, size: 18)),
         const SizedBox(width: 10),
         const Text('Hapus User', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ]),
-      content: Text('Yakin ingin menghapus "${_getDisplayName(user)}"?', style: TextStyle(color: AppColors.darkGreen.withOpacity(0.6), fontSize: 14)),
+      content: Text('Yakin ingin menghapus "${_getDisplayName(user)}"?', style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.6), fontSize: 14)),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal', style: TextStyle(color: AppColors.darkBg))),
         ElevatedButton(onPressed: () { context.read<UsersBloc>().add(UserDelete(token: widget.token, id: user.id)); Navigator.pop(ctx); },
@@ -229,11 +229,11 @@ class _UsersPageState extends State<UsersPage> {
 
   Widget _formField(String label, TextEditingController ctrl, {bool required = false, bool isEmail = false, bool obscure = false, TextEditingController? matchCtrl}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.darkGreen.withOpacity(0.7))), const SizedBox(height: 5),
+      Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.darkGreen.withValues(alpha: 0.7))), const SizedBox(height: 5),
       TextFormField(controller: ctrl, obscureText: obscure, style: const TextStyle(fontSize: 13),
-        decoration: InputDecoration(hintText: label, hintStyle: TextStyle(color: AppColors.darkGreen.withOpacity(0.25), fontSize: 13), contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withOpacity(0.15))),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withOpacity(0.15))),
+        decoration: InputDecoration(hintText: label, hintStyle: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.25), fontSize: 13), contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.15))),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.15))),
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
           filled: true, fillColor: AppColors.lightBg),
         validator: (v) { if (required && (v == null || v.isEmpty)) return '$label wajib diisi'; if (isEmail && v != null && v.isNotEmpty && !v.contains('@')) return 'Email tidak valid'; if (matchCtrl != null && v != matchCtrl.text) return 'Password tidak cocok'; return null; }),
@@ -242,10 +242,10 @@ class _UsersPageState extends State<UsersPage> {
 
   Widget _dropdownField(String label, String value, List<String> items, ValueChanged<String?> onChanged) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.darkGreen.withOpacity(0.7))), const SizedBox(height: 5),
+      Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.darkGreen.withValues(alpha: 0.7))), const SizedBox(height: 5),
       Container(height: 46, padding: const EdgeInsets.symmetric(horizontal: 14),
-        decoration: BoxDecoration(color: AppColors.lightBg, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withOpacity(0.15))),
-        child: DropdownButtonHideUnderline(child: DropdownButton<String>(value: value, isExpanded: true, icon: Icon(Icons.expand_more_rounded, color: AppColors.darkGreen.withOpacity(0.4), size: 18), style: const TextStyle(color: AppColors.darkBg, fontSize: 13),
+        decoration: BoxDecoration(color: AppColors.lightBg, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.15))),
+        child: DropdownButtonHideUnderline(child: DropdownButton<String>(value: value, isExpanded: true, icon: Icon(Icons.expand_more_rounded, color: AppColors.darkGreen.withValues(alpha: 0.4), size: 18), style: const TextStyle(color: AppColors.darkBg, fontSize: 13),
           items: items.map((e) => DropdownMenuItem(value: e, child: Text(e[0].toUpperCase() + e.substring(1)))).toList(), onChanged: onChanged))),
     ]);
   }

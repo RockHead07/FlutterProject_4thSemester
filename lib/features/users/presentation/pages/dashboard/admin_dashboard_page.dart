@@ -17,13 +17,16 @@ class AdminDashboardPage extends StatefulWidget {
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   int _selectedIndex = 0;
+  bool _usersLoaded = false;
   static const _pageTitles = ['Dashboard','Users','Projects','Materials','Pricing Plans','Partners'];
 
   @override
-  void initState() {
-    super.initState();
-    // Trigger initial user load from the globally provided UsersBloc
-    context.read<UsersBloc>().add(UsersLoad(token: widget.user.token));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_usersLoaded) {
+      _usersLoaded = true;
+      context.read<UsersBloc>().add(UsersLoad(token: widget.user.token));
+    }
   }
 
   @override
@@ -42,15 +45,15 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   Widget _buildTopBar() {
     return Container(
       height: 64, padding: const EdgeInsets.symmetric(horizontal: 28),
-      decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: AppColors.darkGreen.withOpacity(0.12))),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 8, offset: const Offset(0, 2))]),
+      decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: AppColors.darkGreen.withValues(alpha: 0.12))),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 8, offset: const Offset(0, 2))]),
       child: Row(children: [
         Text(_pageTitles[_selectedIndex], style: const TextStyle(color: AppColors.darkBg, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 0.2)),
         const Spacer(),
         Container(width: 38, height: 38,
-          decoration: BoxDecoration(color: AppColors.lightBg, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withOpacity(0.12))),
+          decoration: BoxDecoration(color: AppColors.lightBg, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.12))),
           child: Stack(alignment: Alignment.center, children: [
-            Icon(Icons.notifications_outlined, color: AppColors.darkGreen.withOpacity(0.6), size: 18),
+            Icon(Icons.notifications_outlined, color: AppColors.darkGreen.withValues(alpha: 0.6), size: 18),
             Positioned(top: 8, right: 8, child: Container(width: 7, height: 7, decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)))),
           ]),
         ),
@@ -98,26 +101,26 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   Widget _buildWelcomeBanner() {
     return Container(padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [AppColors.darkGreen, AppColors.mediumGreen], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(18), boxShadow: [BoxShadow(color: AppColors.darkGreen.withOpacity(0.3), blurRadius: 16, offset: const Offset(0, 6))]),
+      decoration: BoxDecoration(gradient: const LinearGradient(colors: [AppColors.darkGreen, AppColors.mediumGreen], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(18), boxShadow: [BoxShadow(color: AppColors.darkGreen.withValues(alpha: 0.3), blurRadius: 16, offset: const Offset(0, 6))]),
       child: Row(children: [
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Welcome back, ${widget.user.email.split('@').first}!', style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
-          Text('Here\'s an overview of your application data.', style: TextStyle(color: Colors.white.withOpacity(0.75), fontSize: 14)),
+          Text('Here\'s an overview of your application data.', style: TextStyle(color: Colors.white.withValues(alpha: 0.75), fontSize: 14)),
         ])),
-        Container(width: 56, height: 56, decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(16)), child: const Icon(Icons.insights_rounded, color: Colors.white, size: 28)),
+        Container(width: 56, height: 56, decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(16)), child: const Icon(Icons.insights_rounded, color: Colors.white, size: 28)),
       ]),
     );
   }
 
   Widget _buildChartCard({required String title, required String subtitle, required Widget child}) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.darkGreen.withOpacity(0.1)), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.1)), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(padding: const EdgeInsets.fromLTRB(20, 20, 20, 0), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(title, style: const TextStyle(color: AppColors.darkBg, fontSize: 15, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
-          Text(subtitle, style: TextStyle(color: AppColors.darkGreen.withOpacity(0.45), fontSize: 12)),
+          Text(subtitle, style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.45), fontSize: 12)),
         ])),
         const SizedBox(height: 8), child, const SizedBox(height: 12),
       ]),
@@ -127,16 +130,16 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   Widget _buildRecentUsersCard(List users) {
     final recent = users.take(5).toList();
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.darkGreen.withOpacity(0.1)), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.darkGreen.withValues(alpha: 0.1)), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(padding: const EdgeInsets.all(20), child: Row(children: [
           const Text('Recent Users', style: TextStyle(color: AppColors.darkBg, fontSize: 15, fontWeight: FontWeight.bold)),
           const Spacer(),
           TextButton(onPressed: () => setState(() => _selectedIndex = 1), child: const Text('View All →', style: TextStyle(color: AppColors.primary, fontSize: 13))),
         ])),
-        Divider(height: 1, color: AppColors.darkGreen.withOpacity(0.06)),
+        Divider(height: 1, color: AppColors.darkGreen.withValues(alpha: 0.06)),
         if (recent.isEmpty)
-          Padding(padding: const EdgeInsets.all(32), child: Center(child: Text('No users yet', style: TextStyle(color: AppColors.darkGreen.withOpacity(0.4)))))
+          Padding(padding: const EdgeInsets.all(32), child: Center(child: Text('No users yet', style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.4)))))
         else
           ...recent.map((user) => _buildRecentUserRow(user)),
         const SizedBox(height: 8),
@@ -149,25 +152,25 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     final displayName = (user.firstName != null && user.firstName.isNotEmpty) ? '${user.firstName} ${user.lastName ?? ''}'.trim() : user.username;
     final isActive = user.accountStatus?.toLowerCase() == 'active';
     return Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), child: Row(children: [
-      CircleAvatar(radius: 18, backgroundColor: AppColors.primary.withOpacity(0.12), child: Text(initials, style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w700))),
+      CircleAvatar(radius: 18, backgroundColor: AppColors.primary.withValues(alpha: 0.12), child: Text(initials, style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w700))),
       const SizedBox(width: 12),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(displayName, style: const TextStyle(color: AppColors.darkBg, fontSize: 13, fontWeight: FontWeight.w600)),
-        Text(user.email, style: TextStyle(color: AppColors.darkGreen.withOpacity(0.45), fontSize: 12)),
+        Text(user.email, style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.45), fontSize: 12)),
       ])),
       Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(color: isActive ? AppColors.success.withOpacity(0.4) : AppColors.error.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(color: isActive ? AppColors.success.withValues(alpha: 0.4) : AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(20)),
         child: Text(isActive ? 'Active' : 'Inactive', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: isActive ? AppColors.darkGreen : AppColors.error))),
     ]));
   }
 
   Widget _buildPlaceholder(String title) {
     return Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(width: 80, height: 80, decoration: BoxDecoration(color: AppColors.lightGreen.withOpacity(0.3), borderRadius: BorderRadius.circular(20)), child: const Icon(Icons.construction_rounded, color: AppColors.primary, size: 40)),
+      Container(width: 80, height: 80, decoration: BoxDecoration(color: AppColors.lightGreen.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(20)), child: const Icon(Icons.construction_rounded, color: AppColors.primary, size: 40)),
       const SizedBox(height: 20),
       Text('Halaman $title', style: const TextStyle(color: AppColors.darkBg, fontSize: 22, fontWeight: FontWeight.bold)),
       const SizedBox(height: 8),
-      Text('Fitur ini akan segera tersedia', style: TextStyle(color: AppColors.darkGreen.withOpacity(0.5), fontSize: 14)),
+      Text('Fitur ini akan segera tersedia', style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.5), fontSize: 14)),
     ]));
   }
 }

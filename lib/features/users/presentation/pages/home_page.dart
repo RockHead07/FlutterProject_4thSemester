@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: ClipRRect(
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
                 Text(
                   user.email,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.85),
+                    color: Colors.white.withValues(alpha: 0.85),
                     fontSize: 13,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -129,7 +129,7 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 4),
           ),
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.lightGreen.withOpacity(0.2),
+                  color: AppColors.lightGreen.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(Icons.key_rounded, color: AppColors.primary, size: 20),
@@ -166,7 +166,7 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.lightBg,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.lightGreen.withOpacity(0.3)),
+              border: Border.all(color: AppColors.lightGreen.withValues(alpha: 0.3)),
             ),
             child: Text(
               user.token,
@@ -191,7 +191,7 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 4),
           ),
@@ -205,7 +205,7 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.lightGreen.withOpacity(0.2),
+                  color: AppColors.lightGreen.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(Icons.info_rounded, color: AppColors.primary, size: 20),

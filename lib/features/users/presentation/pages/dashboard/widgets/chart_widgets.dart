@@ -36,7 +36,7 @@ class _LineChartPainter extends CustomPainter {
       }
     }
     areaPath.lineTo(points.last.dx, size.height); areaPath.close();
-    final areaPaint = Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [color.withOpacity(0.25), color.withOpacity(0.02)]).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    final areaPaint = Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [color.withValues(alpha: 0.25), color.withValues(alpha: 0.02)]).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(areaPath, areaPaint);
     final linePath = Path();
     for (int i = 0; i < points.length; i++) {
@@ -64,14 +64,14 @@ class DonutChart extends StatelessWidget {
         CustomPaint(size: const Size(130, 130), painter: _DonutPainter(activeRate: activeRate)),
         Column(mainAxisSize: MainAxisSize.min, children: [
           Text('${activeRate.toStringAsFixed(0)}%', style: const TextStyle(color: AppColors.darkBg, fontSize: 22, fontWeight: FontWeight.bold)),
-          Text('ACTIVE RATE', style: TextStyle(color: AppColors.darkGreen.withOpacity(0.45), fontSize: 9, fontWeight: FontWeight.w600, letterSpacing: 0.8)),
+          Text('ACTIVE RATE', style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.45), fontSize: 9, fontWeight: FontWeight.w600, letterSpacing: 0.8)),
         ]),
       ])),
       const SizedBox(width: 24),
       Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
         _buildLegendItem('ACTIVE', activeCount, AppColors.primary), const SizedBox(height: 12),
-        _buildLegendItem('INACTIVE', inactiveCount, AppColors.darkGreen.withOpacity(0.2)), const SizedBox(height: 12),
-        _buildLegendItem('TOTAL', total, AppColors.darkGreen.withOpacity(0.5)),
+        _buildLegendItem('INACTIVE', inactiveCount, AppColors.darkGreen.withValues(alpha: 0.2)), const SizedBox(height: 12),
+        _buildLegendItem('TOTAL', total, AppColors.darkGreen.withValues(alpha: 0.5)),
       ]),
     ]);
   }
@@ -79,7 +79,7 @@ class DonutChart extends StatelessWidget {
     return Row(children: [
       Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)), const SizedBox(width: 8),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label, style: TextStyle(color: AppColors.darkGreen.withOpacity(0.45), fontSize: 9, fontWeight: FontWeight.w600, letterSpacing: 0.8)),
+        Text(label, style: TextStyle(color: AppColors.darkGreen.withValues(alpha: 0.45), fontSize: 9, fontWeight: FontWeight.w600, letterSpacing: 0.8)),
         Text(value.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.'), style: const TextStyle(color: AppColors.darkBg, fontSize: 15, fontWeight: FontWeight.w700)),
       ]),
     ]);
@@ -93,7 +93,7 @@ class _DonutPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2); final radius = size.width / 2 - 8;
     const strokeWidth = 14.0; const startAngle = -pi / 2;
-    final trackPaint = Paint()..color = AppColors.darkGreen.withOpacity(0.08)..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
+    final trackPaint = Paint()..color = AppColors.darkGreen.withValues(alpha: 0.08)..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
     canvas.drawCircle(center, radius, trackPaint);
     final activeSweep = (activeRate / 100) * 2 * pi;
     final activePaint = Paint()..shader = SweepGradient(startAngle: startAngle, endAngle: startAngle + activeSweep, colors: [AppColors.lightGreen, AppColors.primary]).createShader(Rect.fromCircle(center: center, radius: radius))..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
@@ -125,7 +125,7 @@ class _BarChartPainter extends CustomPainter {
       final x = i * (barWidth + gap) + gap / 2; final barHeight = (data[i] / maxVal) * chartHeight; final y = chartHeight - barHeight;
       final isMax = data[i] == maxVal;
       final barPaint = Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
-        colors: isMax ? [AppColors.primary, AppColors.darkGreen] : [AppColors.lightGreen, AppColors.primary.withOpacity(0.4)]).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
+        colors: isMax ? [AppColors.primary, AppColors.darkGreen] : [AppColors.lightGreen, AppColors.primary.withValues(alpha: 0.4)]).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
       final rrect = RRect.fromRectAndCorners(Rect.fromLTWH(x, y, barWidth, barHeight), topLeft: const Radius.circular(4), topRight: const Radius.circular(4));
       canvas.drawRRect(rrect, barPaint);
     }
