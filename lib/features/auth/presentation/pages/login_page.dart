@@ -35,6 +35,25 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> _showAccessDeniedDialog() async {
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        title: const Text('Akses ditolak'),
+        content: const Text('Anda adalah user. Anda tidak berhak memasuki halaman admin.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +61,20 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            // ← Arahkan ke AdminDashboardPage, bukan HomePage
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => AdminDashboardPage(user: state.user),
-              ),
-            );
+            final role = state.user.role?.toLowerCase();
+            const allowedRoles = {'admin', 'superadmin', 'owner'};
+            if (role != null && allowedRoles.contains(role)) {
+              // ← Arahkan ke AdminDashboardPage, bukan HomePage
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => AdminDashboardPage(user: state.user),
+                ),
+              );
+            } else {
+              _showAccessDeniedDialog();
+              context.read<AuthBloc>().add(LogoutRequested());
+              _passwordController.clear();
+            }
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

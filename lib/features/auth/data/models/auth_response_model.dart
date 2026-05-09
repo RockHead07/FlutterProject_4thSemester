@@ -5,6 +5,7 @@ class AuthResponseModel extends AuthEntity {
   const AuthResponseModel({
     required super.token,
     required super.email,
+    super.role,
   });
 
   /// Parse the Laravel login response.
@@ -18,6 +19,7 @@ class AuthResponseModel extends AuthEntity {
     return AuthResponseModel(
       token: (payload['token'] ?? '') as String,
       email: (payload['user']?['email'] ?? '') as String,
+      role: payload['user']?['role'] as String?,
     );
   }
 }

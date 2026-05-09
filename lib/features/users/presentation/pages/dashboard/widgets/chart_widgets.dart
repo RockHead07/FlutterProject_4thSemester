@@ -95,8 +95,20 @@ class _DonutPainter extends CustomPainter {
     const strokeWidth = 14.0; const startAngle = -pi / 2;
     final trackPaint = Paint()..color = AppColors.darkGreen.withValues(alpha: 0.08)..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
     canvas.drawCircle(center, radius, trackPaint);
-    final activeSweep = (activeRate / 100) * 2 * pi;
-    final activePaint = Paint()..shader = SweepGradient(startAngle: startAngle, endAngle: startAngle + activeSweep, colors: [AppColors.lightGreen, AppColors.primary]).createShader(Rect.fromCircle(center: center, radius: radius))..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
+
+    // Guard: skip drawing when there's nothing to draw
+    final clampedRate = activeRate.clamp(0.0, 100.0);
+    if (clampedRate <= 0) return;
+
+    final activeSweep = (clampedRate / 100) * 2 * pi;
+
+    // Use solid color for full circle (avoids startAngle == endAngle in SweepGradient)
+    final Paint activePaint;
+    if (clampedRate >= 100) {
+      activePaint = Paint()..color = AppColors.primary..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
+    } else {
+      activePaint = Paint()..shader = SweepGradient(startAngle: startAngle, endAngle: startAngle + activeSweep, colors: [AppColors.lightGreen, AppColors.primary]).createShader(Rect.fromCircle(center: center, radius: radius))..style = PaintingStyle.stroke..strokeWidth = strokeWidth..strokeCap = StrokeCap.round;
+    }
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, activeSweep, false, activePaint);
   }
   @override
